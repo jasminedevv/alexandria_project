@@ -1,10 +1,18 @@
 # A simple script that archives any site you pass it
-import urllib2, re, sys
+import re, sys
+try:
+    # For Python 3.0 and later
+    from urllib.request import urlopen
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
+    from urllib2 import urlopen
+
 import time
 
 if not sys.argv[1]:
-    print "Welcome to alexandria.py. I take a sitemap, usually found at <site>/sitemap.xml and submit everything I find there to web.archive.org. Before feeding me a sitemap, check the url in your browser. Sometimes you'll find links to the actual sitemaps in different parts./n"
-    site = raw_input("What site would you like to archive? Paste the entire url./n> ")
+    print("Welcome to alexandria.py. I take a sitemap, usually found at <site>/sitemap.xml and submit everything I find there to web.archive.org. Before feeding me a sitemap, check the url in your browser. Sometimes you'll find links to the actual sitemaps in different parts./n")
+    site = input("What site would you like to archive? Paste the entire url./n> ")
 else:
     site = sys.argv[1]
 
@@ -18,7 +26,7 @@ def replace_line(file_name, line_num, text):
 
 try:
     doc = open("progress.txt", 'r')
-    print "Finding progress.. ."
+    print("Finding progress.. .")
     pass
 except Exception:
     doc = open("progress.txt", 'a+')
@@ -29,25 +37,25 @@ doc.seek(0)
 lines = doc.readlines()
 doc.close()
 progress = int(lines[1])
-print "Restarting at index: " + str(progress)
+print("Restarting at index: " + str(progress))
 
 # gets the sitemap and extracts all the urls in it to a list
-response = urllib2.urlopen(sys.argv[1])
-print "Searching: " + sys.argv[1]
+response = urlopen(sys.argv[1])
+print("Searching: " + sys.argv[1])
 html = response.read()
-print "Success!"
+print("Success!")
 try:
-    urls = re.findall('(?<=<loc>)(.*)(?=</loc>)', html)
+    urls = re.findall('(?<=<loc>)(.*)(?=</loc>)', str(html))
 except AttributeError:
     urls = 'Did not find any! Did you paste the righ url?'
-print "Archiving... ."
+print("Archiving... .")
 
 # hits the web archive api to save each url
 for url in urls:
-    print progress
+    print(progress)
     # urllib2.urlopen('https://web.archive.org/save/'+ urls[progress])
     time.sleep(1) # the polite thing to do
     prog_str = str(progress)
     replace_line("progress.txt", 1, prog_str)
-    print url, urls[progress]
+    print(url, urls[progress])
     progress += 1
