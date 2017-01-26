@@ -10,7 +10,6 @@ else:
 
 # this block is to retain progress in case something goes wrong. Like my internet shitting out.
 def replace_line(file_name, line_num, text):
-    print "replace line fires with: " + text
     lines = open(file_name, 'r').readlines()
     lines[line_num] = text
     out = open(file_name, 'w')
