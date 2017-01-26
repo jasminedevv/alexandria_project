@@ -53,9 +53,9 @@ print("Archiving... .")
 # hits the web archive api to save each url
 for url in urls:
     print(progress)
-    # urllib2.urlopen('https://web.archive.org/save/'+ urls[progress])
+    urllib2.urlopen('https://web.archive.org/save/'+ urls[progress])
     time.sleep(1) # the polite thing to do
     prog_str = str(progress)
     replace_line("progress.txt", 1, prog_str)
-    print(url, urls[progress])
+    print(url)
     progress += 1
