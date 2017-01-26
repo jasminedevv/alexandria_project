@@ -1,5 +1,13 @@
 # A simple script that archives any site you pass it
-import urllib.request, urllib.error, urllib.parse, re, sys
+import re, sys
+try:
+    # For Python 3.0 and later
+    from urllib.request import urlopen
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
+    from urllib2 import urlopen
+
 import time
 
 if not sys.argv[1]:
@@ -32,7 +40,7 @@ progress = int(lines[1])
 print("Restarting at index: " + str(progress))
 
 # gets the sitemap and extracts all the urls in it to a list
-response = urllib.request.urlopen(sys.argv[1])
+response = urlopen(sys.argv[1])
 print("Searching: " + sys.argv[1])
 html = response.read()
 print("Success!")
