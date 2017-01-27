@@ -1,3 +1,4 @@
+#### Nevermind, actually just http://internetarchive.readthedocs.io/ ####
 # The Alexandria Project
 A simple python script that takes in a site map and submits everything in it to web.archive.org.
 # Usage
